@@ -1,70 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Snake
 {
-    class Progarm
+    class Program
     {
         static void Main(string[] args)
         {
             Console.SetWindowSize(80, 25);
             Console.SetBufferSize(80, 25);
 
+            Walls walls = new Walls(80, 25);
+            walls.Draw();
 
+            Point p = new Point(4, 5, '*');
+            Snake snake = new Snake(p, 4, Direction.RIGHT);
+            snake.Draw();
 
-            HorizontalLine upLine = new HorizontalLine(0, 78, 0, '+');
-            HorizontalLine downLine = new HorizontalLine(0, 78, 24, '+');
-            VerticalLine leftLine = new VerticalLine(0, 24, 0, '+');
-            VerticalLine rightLine = new VerticalLine(0, 24, 78, '+');
-            upLine.Draw();
-            downLine.Draw();
-            leftLine.Draw();
-            rightLine.Draw();
+            FoodCreator foodCreator = new FoodCreator(80, 25, '$');
+            Point food = foodCreator.CreateFood();
+            food.Draw();
 
+            while (true)
+            {
+                if (walls.IsHit(snake) || snake.IsHitTail())
+                {
+                    break;
+                }
+                if (snake.Eat(food))
+                {
+                    food = foodCreator.CreateFood();
+                    food.Draw();
+                }
+                else
+                {
+                    snake.Move();
+                }
 
-
-            Point p1 = new Point(1, 3, '*');
-            //p1.x = 1;
-            //p1.y = 3;
-            //p1.sym = '*';
-            p1.Draw();
-
-            Point p2 = new Point(4, 5, '#');
-            p2.Draw();
-
-
-
-            List<Point> pList = new List<Point>();
-            pList.Add(p1);
-            pList.Add(p2);
-
-
-            HorizontalLine line = new HorizontalLine(5, 10, 8, '*');
-            line.Draw();
-
-
-            
-            //int x1 = 1;
-            //int y1 = 3;
-            //char sym1 = '*';
-
-            
-            //Draw(x1, y1, sym1 );
-
-            //int x2 = 4;
-            //int y2 = 5;
-            //char sym2 = '#';
-
-            //Console.SetCursorPosition(x2, y2);
-            //Console.WriteLine(sym2);
-
-            //Draw(x2, y2, sym2);
+                Thread.Sleep(100);
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    snake.HandleKey(key.Key);
+                }
+            }
+            WriteGameOver();
             Console.ReadLine();
+        }
 
+
+        static void WriteGameOver()
+        {
+            int xOffset = 25;
+            int yOffset = 8;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(xOffset, yOffset++);
+            WriteText("============================", xOffset, yOffset++);
+            WriteText("И Г Р А    О К О Н Ч Е Н А", xOffset + 1, yOffset++);
+            yOffset++;
+            WriteText("Автор: Марк Юрген", xOffset + 2, yOffset++);
+            WriteText("============================", xOffset, yOffset++);
+        }
+
+        static void WriteText(String text, int xOffset, int yOffset)
+        {
+            Console.SetCursorPosition(xOffset, yOffset);
+            Console.WriteLine(text);
         }
 
     }
