@@ -1,17 +1,20 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Snake
 {
-    class Snake : Figure
+    class SnakeGame : Figure
     {
-        Direction direction;
+        private Direction direction;
 
-        public Snake(Point tail, int length, Direction _direction)
+        public Direction Direction
+        {
+            get { return direction; }
+            set { direction = value; }
+        }
+
+        public SnakeGame(Point tail, int length, Direction _direction)
         {
             direction = _direction;
             pList = new List<Point>();
@@ -45,7 +48,7 @@ namespace Snake
         public bool IsHitTail()
         {
             var head = pList.Last();
-            for (int i = 0; i < pList.Count - 2; i++)
+            for (int i = 0; i < pList.Count - 1; i++)
             {
                 if (head.IsHit(pList[i]))
                     return true;
@@ -55,14 +58,10 @@ namespace Snake
 
         public void HandleKey(ConsoleKey key)
         {
-            if (key == ConsoleKey.LeftArrow)
-                direction = Direction.LEFT;
-            else if (key == ConsoleKey.RightArrow)
-                direction = Direction.RIGHT;
-            else if (key == ConsoleKey.DownArrow)
-                direction = Direction.DOWN;
-            else if (key == ConsoleKey.UpArrow)
-                direction = Direction.UP;
+            if (key == ConsoleKey.LeftArrow) direction = Direction.LEFT;
+            else if (key == ConsoleKey.RightArrow) direction = Direction.RIGHT;
+            else if (key == ConsoleKey.UpArrow) direction = Direction.UP;
+            else if (key == ConsoleKey.DownArrow) direction = Direction.DOWN;
         }
 
         public bool Eat(Point food)

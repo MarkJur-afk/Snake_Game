@@ -9,24 +9,28 @@
 
   <ItemGroup>
     <None Remove="dead.mp3" />
+    <None Remove="dead.wav" />
     <None Remove="eat.mp3" />
+    <None Remove="eat.wav" />
     <None Remove="Main.mp3" />
+    <None Remove="Main.wav" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="dead.mp3">
+    <Content Include="dead.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="eat.mp3">
+    <Content Include="eat.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Main.mp3">
+    <Content Include="Main.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="System.Windows.Extensions" Version="9.0.9" />
   </ItemGroup>
 
 </Project>
